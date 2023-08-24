@@ -1,0 +1,80 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th scope="col">name</th>
+            <th scope="col">price</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td><img style="width:50px;height:50px " src="/product-images/{{this.product._id}}.jpg"></td>
+            <td>{{this.product.name}}</td>
+            <td>{{this.product.price}}</td>
+            <td><button type="button" class="btn btn-success" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)"> + </button>
+            <span id="{{this.product._id}}">  {{this.quantitys}}   </span>
+             <button type="button" class="btn btn-success" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">   -    </button></td>
+            <td><button type="button" class="btn btn-danger"
+                        onclick="deleteCart('{{this._id}}','{{this.product._id}}')">delet</button>
+                </a></td>
+        </tr>
+       
+        {{/each}}
+
+    </tbody>
+</table>
+<hr>
+ <h3 style="margin-left: 1270px;">total=<span id="total">{{this.total}}</span></h3>
+ <a class="btn btn-success" style="margin-left: 1270px;" href="/placeOrder" >place order</a>
+<script>
+    function changeQuantity(cartId,proId,userId,count){
+        quantity=parseInt(document.getElementById(proId).innerHTML)
+       $.ajax({
+    url: '/changeproquantity',
+    data: {
+        cart: cartId,
+        product: proId,
+        count: count,
+        quantity:quantity,
+        user:userId
+    },
+    method: 'post',
+    success: (response) => {
+        if(response.removeProduct){
+            alert("product removed from cart")
+            location.reload()
+
+        }
+        else{
+            document.getElementById(proId).innerHTML=quantity+count
+            document.getElementById('total').innerHTML=response.total
+        }
+    }
+   
+});
+
+
+    }
+function deleteCart(cartId,proId)
+{
+    $.ajax({
+        url:'/deleteProduct',
+        data:{
+            cart: cartId,
+            product: proId 
+
+        },
+        method:'post',
+        success:(response)=>{
+            if(response.removeProduct){
+                alert("product remove from cart")
+                location.reload()
+            }
+            
+        }
+    })
+
+}     
+</script>

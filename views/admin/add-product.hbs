@@ -1,0 +1,35 @@
+<style>
+  section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: -150px;
+  }
+</style>
+
+<section>
+  <form action="/admin/add-product" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+    <label for="exampleInputEmail1">name of product</label>
+    <input type="text" name="name" class="form-control" placeholder="Enter the name of product">
+    </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">catogary</label>
+    <input type="text" class="form-control" name="catogary" placeholder="enter the catogary">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">price</label>
+    <input type="text" class="form-control" name="price" placeholder="enter the price">
+  </div>
+   <div class="form-group">
+    <label for="exampleInputPassword1">description</label>
+    <input type="text" class="form-control" name="description" placeholder="enter the description about product">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlFile1">add image</label>
+    <input type="file" class="form-control-file" name="Image">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</section>

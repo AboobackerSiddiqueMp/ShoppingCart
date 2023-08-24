@@ -1,0 +1,120 @@
+<style>
+  section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: -150px;
+  }
+</style>
+<h3 style="margin-left: 1270px; color:brown; margin-top:60px"> total={{this.total}}</h3>
+
+<section>
+
+  <form method="" id="formc">
+    <div class="form-group">
+      <label for="exampleInputEmail1">adress</label>
+      <input type="text" class="form-control" id="address" placeholder="Enter adress" name="address">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">pincode</label>
+      <input type="text" class="form-control" id="exampleInputPassword1" placeholder="enter your pincode"
+        name="pincode">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">mobile no</label>
+      <input type="text" class="form-control" id="exampleInputPassword1" placeholder="enter your mobile number"
+        name="mobile">
+    </div>
+    <input type="text" value="{{user._id}}" name="userId" hidden>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="payment-method" id="exampleRadios1" value="COD" checked>
+      <label class="form-check-label" for="exampleRadios1">
+        COD
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="payment-method" id="exampleRadios2" value="UPI">
+      <label class="form-check-label" for="exampleRadios2">
+        UPI
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</section>
+
+<script>
+  $("#formc").submit((e) => {
+    e.preventDefault()
+    $.ajax({
+      url: '/placeOrder',
+      method: 'post',
+      data: $('#formc').serialize(),
+      success: (response) => {
+        if (response.codSuccess) {
+          location.href = '/order-placed'
+
+        } else {
+          razorpayPayment(response)
+
+        }
+
+      }
+    })
+  })
+  function razorpayPayment(order) {
+    var options = {
+      "key": "rzp_test_zNYYWFiqIix30e", // Enter the Key ID generated from the Dashboard
+      "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "blackfly",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "handler": function (response) {
+        verifyPayment(response, order);
+
+      },
+      "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+    var rzp1 = new Razorpay(options);
+
+
+    rzp1.open();
+
+
+
+
+  }
+  function verifyPayment(payment, order) {
+    $.ajax({
+      url: 'verify-payment',
+      data: {
+        payment,
+        order
+      },
+      method: 'post',
+      success: (response) => {
+        if (response.status) {
+          location.href = '/order-placed'
+
+
+        } else {
+          alert("payment failled")
+        }
+      }
+    })
+
+  }
+</script>

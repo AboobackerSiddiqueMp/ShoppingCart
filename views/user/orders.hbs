@@ -1,0 +1,28 @@
+<section>
+     <table class="table">
+  <thead>
+    <tr>
+     <th>orderss</th>
+      <th scope="col">payment-method</th>
+      <th scope="col">total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each order}}
+    <tr>
+      <th scope="row">1</th>
+      <td>{{this.paymentMethod}}</td>
+      <td>{{this.total}}</td>
+
+      <td><a href="/show-orderd-product/{{this._id}}" class="btn btn-success">show-orderd-product
+</a>
+      </td>
+    
+
+    </tr>
+    {{/each}}
+  
+  </tbody>
+</table>
+    
+</section>

@@ -1,0 +1,44 @@
+<section>
+    <div class="container">
+        <div class="row">
+          <a href="/admin/add-product"><button type="button" class="btn btn-success">add a product</button>
+</a>
+        </div><br><br>
+        <table class="table" id="productTable">
+  <thead>
+    <tr>
+      <th scope="col">name</th>
+      <th scope="col">category</th>
+      <th scope="col">price</th>
+      <th scope="col">description</th>
+      <th>image</th>
+      <th>options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each item}}
+    <tr>
+      <td>{{this.name}}</td>
+      <td>{{this.catogary}}</td>
+      <td>{{this.price}}</td>
+      <td>{{this.description}}</td>
+
+      <td><img style="width:50px;height:50px " src="/product-images/{{this._id}}.jpg"></td>
+      <td><a href="/admin/edit-product/{{this._id}}"><button type="button" class="btn btn-success">edit</button>
+</a>
+      <a href="/admin/delete-product/{{this._id}}" ><button type="button" class="btn btn-danger" onclick="return confirm('are u sure delete {{this.name}} ?')">delet</button>
+</a></td>
+    
+
+    </tr>
+    {{/each}}
+  
+  </tbody>
+</table>
+    </div>
+</section>
+<script>
+  $(document).ready( function () {
+    $('#productTable').DataTable();
+} );
+</script>
